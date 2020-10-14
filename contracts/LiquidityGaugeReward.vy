@@ -33,7 +33,7 @@ interface VotingEscrow:
 interface CurveRewards:
     def stake(amount: uint256): nonpayable
     def withdraw(amount: uint256): nonpayable
-    def getReward(): nonpayable
+    def claimReward(): nonpayable
     def earned(addr: address) -> uint256: view
 
 
@@ -177,7 +177,7 @@ def _checkpoint_rewards(addr: address, claim_rewards: bool):
     d_reward: uint256 = 0
     if claim_rewards:
         d_reward = ERC20(_rewarded_token).balanceOf(self)
-        CurveRewards(self.reward_contract).getReward()
+        CurveRewards(self.reward_contract).claimReward()
         d_reward = ERC20(_rewarded_token).balanceOf(self) - d_reward
 
     user_balance: uint256 = self.balanceOf[addr]
